@@ -17,7 +17,7 @@ export class ProductsService {
   }
 
   async getById(id: string): Promise<Product> {
-    // return this.products.find((p) => p.id === id);
+
     return this.productModel.findById(id);
   }
 
@@ -39,7 +39,7 @@ export class ProductsService {
     }
   }
 
-  async removeAll(): Promise<any> {
+  async removeAll() {
     const objects = await this.productModel.find().exec();
     if (objects.length != 0) {
       objects.forEach((item) => {
@@ -49,6 +49,7 @@ export class ProductsService {
   }
 
   async update(id: string, productDto: UpdateProductDto): Promise<Product> {
+
     return this.productModel.findByIdAndUpdate(id, productDto, { new: true });
   }
 }

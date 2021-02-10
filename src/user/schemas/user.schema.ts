@@ -1,23 +1,29 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Cart } from '../../cart/schemas/cart.schema';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 
+@ObjectType()
 @Schema()
 export class User {
-  @Prop({ type: String, required: true })
+  @Field(() => ID, { nullable: true })
+  _id: string;
+
+  @Field(() => String, { nullable: true })
+  @Prop({ type: String })
   firstName: string;
 
-  @Prop({ type: String, required: true })
+  @Field(() => String, { nullable: true })
+  @Prop({ type: String })
   secondName: string;
 
-  @Prop({ type: String, required: true, unique: true })
+  @Field(() => String, { nullable: true })
+  @Prop({ type: String, unique: true })
   phone: string;
 
-  @Prop({ type: String, required: true })
+  @Field(() => String, { nullable: true })
+  @Prop({ type: String })
   password: string;
-
-  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Cart' }]})
-  cart: Cart[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

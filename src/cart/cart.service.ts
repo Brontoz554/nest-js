@@ -12,7 +12,7 @@ export class CartService {
    * метод добавляющий товар в корзину
    * @param cart
    */
-  async addInCart(cart: cartDto): Promise<number> {
+  async addInCart(cart: cartDto): Promise<any> {
     const cartRecord = await this.cartModel.findOne({
       $and: [
         { user: { $eq: cart.user } },
@@ -90,23 +90,18 @@ export class CartService {
       product.count === 0
         ? product.delete()
         : product.save();
+    } else {
+      return 'Корзина пуста';
     }
     return `Вы успешно оформили покупку ${product.product.title} на сумму ${product.product.price}`;
   }
-
 
   /**
    * Получить товары находящиеся в корзине пользователя
    * @param userId
    */
-  async getMyCart(userId): Promise<string | Cart> {
-    const cart = await this.cartModel.find({ user: userId }).populate('product');
-
-    if (cart.length == 0) {
-      return 'Ваша корзина пуста';
-    } else {
-      return cart;
-    }
+  async getMyCart(userId): Promise<Cart[]> {
+    return await this.cartModel.find({ user: userId }).populate('product');
   }
 
   /**

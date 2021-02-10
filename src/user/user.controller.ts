@@ -12,6 +12,7 @@ import { User } from './schemas/user.schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CartService } from '../cart/cart.service';
+import * as mongoose from 'mongoose';
 
 @Controller('user')
 export class UserController {
@@ -41,8 +42,8 @@ export class UserController {
   /**
    * Создание нового юзера
    */
-  async createUser(@Body() createUser: CreateUserDto): Promise<object | unknown> {
-    return await this.userService.create(createUser);
+  createUser(@Body() createUser: CreateUserDto): Promise<object | unknown> {
+    return this.userService.create(createUser);
   }
 
   @Put(':id')
@@ -60,11 +61,7 @@ export class UserController {
    * Удалить всех юзеров
    */
   removeAllUsers() {
-    this.userService.removeAll();
-    return {
-      message: 'Все пользователи успешно удалены',
-      success: true,
-    };
+    return this.userService.removeAll();
   }
 
   @Delete(':id')
@@ -74,7 +71,7 @@ export class UserController {
    */
   async removeUser(@Param('id') id: string): Promise<object> {
     await this.cartService.removeUserCart(id);
-    const status = await this.userService.remove(id);
+    const status = await this.userService.removeUser(id);
     if (status) {
       return {
         message: `пользователь ${id} успешно удалён`,

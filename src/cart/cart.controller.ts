@@ -21,7 +21,7 @@ export class CartController {
   }
 
   @Get('my-cart/:userId')
-  async getMyCart(@Param('userId') userId: string): Promise<string | Cart> {
+  async getMyCart(@Param('userId') userId: string): Promise<Cart[]> {
     return await this.cartService.getMyCart(userId);
   }
 
@@ -50,8 +50,7 @@ export class CartController {
    */
   @Post()
   async addProductInCart(@Body() cart: cartDto): Promise<any> {
-    const cartId = await this.cartService.addInCart(cart);
-    await this.userService.addInCart(cart, cartId);
+    await this.cartService.addInCart(cart);
 
     return 'Товар успешно добавлен в карзину';
   }
@@ -60,12 +59,9 @@ export class CartController {
    * Отчистить все корзины(для дебага)
    */
   @Delete()
-  async removeAll(): Promise<object> {
+  async removeAll(): Promise<string> {
     await this.cartService.removeAll();
-    return {
-      message: 'Все корзины отчищены',
-      success: true,
-    };
+    return 'Все корзины отчищены';
   }
 
 }

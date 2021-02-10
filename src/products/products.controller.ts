@@ -39,11 +39,6 @@ export class ProductsController {
     return this.productService.getById(id);
   }
 
-  // @Get('test/:title')
-  // async getByTitle(@Param('title') title: string) {
-  //   return await this.productService.getByTitle(title);
-  // }
-
   @Post()
   /**
    * Создать новый товар
@@ -85,7 +80,7 @@ export class ProductsController {
    */
   async remove(@Param('id') id: string) {
     const status = await this.productService.remove(id);
-    if(status){
+    if (status) {
       return {
         message: `Товар ${id} успешно удалён`,
         success: true,
@@ -97,16 +92,13 @@ export class ProductsController {
     };
   }
 
-  @Delete('delete-all1')
+  @Delete('delete-all')
   /**
    * Удалить все товары
    */
-  async deleteAll(): Promise<object> {
+  async deleteAll(): Promise<string> {
     await this.cartService.removeAll();
-    await this.productService.removeAll();
-    return {
-      message: 'Все товары удалены, а корзины пользователей отчищены',
-      success: true,
-    };
+    // await this.productService.removeAll();
+    return 'Все товары удалены, а корзины пользователей отчищены';
   }
 }

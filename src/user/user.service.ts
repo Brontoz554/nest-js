@@ -15,7 +15,7 @@ export class UserService {
   }
 
   async getById(id: string): Promise<User> {
-    return this.userModel.findById(id).populate('cart');
+    return this.userModel.findById(id);
   }
 
   async create(createUserDto: CreateUserDto): Promise<User | any> {
@@ -37,7 +37,7 @@ export class UserService {
     }
   }
 
-  async remove(id: string): Promise<boolean> {
+  async removeUser(id: string): Promise<boolean> {
     const object = await this.userModel.findByIdAndRemove(id);
     if (object) {
       return true;
@@ -54,11 +54,11 @@ export class UserService {
     await this.getAll();
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+  update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     return this.userModel.findByIdAndUpdate(id, updateUserDto);
   }
 
-  async addInCart(cart, cartId) {
+  async addInCart(cart, cartId): Promise<any> {
     const user = await this.userModel.findById(cart.user);
     await user.cart.push(cartId);
     return user.save();

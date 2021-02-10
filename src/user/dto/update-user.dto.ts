@@ -4,25 +4,32 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 
+@InputType()
+@ObjectType()
 export class UpdateUserDto {
+  @IsNotEmpty()
   @IsString()
   @MinLength(5)
   @MaxLength(10)
-  @IsOptional()
+  @Field()
   readonly firstName: string;
 
+  @IsNotEmpty()
   @IsString()
-  @IsOptional()
+  @Field()
   readonly secondName: string;
 
+  @IsNotEmpty()
   @IsString()
-  @IsOptional()
-  @MinLength(11)
-  @MaxLength(12)
+  @MinLength(11) // 8 999
+  @MaxLength(12) // +7 999
+  @Field()
   readonly phone: string;
 
+  @IsNotEmpty()
   @IsString()
-  @IsOptional()
+  @Field()
   readonly password: string;
 }
